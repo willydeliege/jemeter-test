@@ -5,14 +5,81 @@
     <artifactId>jmeter-testproject</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <name>jmeter-testproject</name>
     <url>http://maven.apache.org</url>
     <dependencies>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.4.0</version>
+            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <properties>
+        <BUILD_TAG>${project.version}</BUILD_TAG>
+        <connect.timeout>30000</connect.timeout>
+        <response.timeout>40000</response.timeout>
+        <thread.number>20</thread.number>
+        <rampup>10</rampup>
+        <startup.delay>5</startup.delay>
+        <test.duration>100</test.duration>
+        <target.rpm>30</target.rpm>
+        <jmeter.plugin.version>3.1.0</jmeter.plugin.version>
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+        <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
+        <html.report>true</html.report>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.lazerycode.jmeter</groupId>
+                <artifactId>jmeter-maven-plugin</artifactId>
+                <version>${jmeter.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>configuration</id>
+                        <goals>
+                            <goal>configure</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>tests</id>
+                        <goals>
+                            <goal>jmeter</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>check-results</id>
+                        <goals>
+                            <goal>results</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <propertiesUser>
+                        <connect.timeout>${connect.timeout}</connect.timeout>
+                        <response.timeout>${response.timeout}</response.timeout>
+                        <thread.number>${thread.number}</thread.number>
+                        <rampup>${rampup}</rampup>
+                        <startup.delay>${startup.delay}</startup.delay>
+                        <test.duration>${test.duration}</test.duration>
+                        <target.rpm>${target.rpm}</target.rpm>
+                        <jmeter.reportgenerator.report_title>Test Example</jmeter.reportgenerator.report_title>
+                        <jmeter.reportgenerator.overall_granularity>500</jmeter.reportgenerator.overall_granularity>
+                    </propertiesUser>
+                    <resultsFileFormat>xml</resultsFileFormat>
+                    <ignoreResultFailures>true</ignoreResultFailures>
+                    <generateReports>${html.report}</generateReports>
+
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
